@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Babiko — Play, considered.</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --ink: #191918;
+            --paper: #f5f3ee;
+            --sand: #e7e0d4;
+            --moss: #a2a395;
+            --line: rgba(25, 25, 24, 0.18);
+            --serif: 'Instrument Serif', Georgia, serif;
+            --sans: 'DM Sans', Arial, sans-serif;
+            --mono: 'DM Mono', monospace;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--paper);
+            color: var(--ink);
+            font-family: var(--sans);
+            font-size: 15px;
+            line-height: 1.5;
+        }
+
+        .announcement {
+            background: var(--ink);
+            color: var(--paper);
+            text-align: center;
+            padding: 10px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .site-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 40px;
+            border-bottom: 1px solid var(--line);
+            background: var(--paper);
+        }
+
+        .brand-logo {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .brand-logo strong {
+            font-family: var(--serif);
+            font-size: 24px;
+            font-style: italic;
+        }
+
+        .desktop-nav {
+            display: flex;
+            gap: 40px;
+            background: none;
+            border: none;
+        }
+
+        .desktop-nav button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 15px;
+            color: var(--ink);
+            padding: 0;
+            transition: opacity 0.2s;
+        }
+
+        .desktop-nav button:hover {
+            opacity: 0.6;
+        }
+
+        .header-help {
+            background: var(--ink);
+            color: var(--paper);
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 500;
+            font-size: 14px;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .header-help:hover {
+            opacity: 0.8;
+        }
+
+        main {
+            min-height: 100vh;
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+            padding: 80px 40px;
+            background: var(--paper);
+        }
+
+        .hero-image {
+            background: linear-gradient(135deg, #e7e0d4 0%, #d4ccc0 100%);
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-caption {
+            font-family: var(--serif);
+            font-size: 48px;
+            font-style: italic;
+            color: var(--ink);
+            text-align: center;
+            max-width: 80%;
+        }
+
+        .hero-copy {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .eyebrow {
+            font-family: var(--mono);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--moss);
+            font-weight: 500;
+        }
+
+        h1, h2, h3 {
+            font-family: var(--serif);
+            font-size: 48px;
+            line-height: 1.2;
+            margin: 0;
+        }
+
+        h2 {
+            font-size: 42px;
+        }
+
+        h2 em {
+            font-style: italic;
+            font-weight: normal;
+        }
+
+        .intro {
+            padding: 80px 40px;
+            text-align: center;
+            background: var(--sand);
+            border-top: 1px solid var(--line);
+        }
+
+        .intro h2 {
+            margin: 20px 0 40px;
+        }
+
+        .intro p {
+            max-width: 600px;
+            margin: 0 auto;
+            color: var(--ink);
+            line-height: 1.8;
+        }
+
+        .shop-paths {
+            padding: 80px 40px;
+            background: var(--paper);
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title h2 {
+            margin: 20px 0;
+        }
+
+        .paths-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+        }
+
+        .path-card {
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .path-card:hover {
+            transform: translateY(-8px);
+        }
+
+        .path-image {
+            width: 100%;
+            aspect-ratio: 1;
+            background: linear-gradient(135deg, #d4ccc0 0%, #c0b8ac 100%);
+            border-radius: 8px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .path-card h3 {
+            font-size: 32px;
+            margin: 16px 0 12px;
+        }
+
+        .path-card p {
+            color: var(--moss);
+            font-size: 16px;
+            margin: 0;
+        }
+
+        .best-sellers {
+            padding: 80px 40px;
+            background: var(--sand);
+            border-top: 1px solid var(--line);
+        }
+
+        .best-sellers .section-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .best-sellers .section-title div {
+            text-align: left;
+        }
+
+        .text-link {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--ink);
+            text-decoration: underline;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .product-card {
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .product-photo {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 1;
+            background: var(--sand);
+            border: 1px solid var(--line);
+            border-radius: 4px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .product-photo span {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: var(--ink);
+            color: var(--paper);
+            padding: 4px 10px;
+            border-radius: 3px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .product-meta {
+            padding: 16px 0;
+        }
+
+        .product-meta p {
+            font-size: 12px;
+            color: var(--moss);
+            margin: 0 0 8px;
+        }
+
+        .product-meta h3 {
+            font-size: 18px;
+            margin: 8px 0 12px;
+            line-height: 1.3;
+        }
+
+        .product-price-block {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .price-text-group {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .original-price {
+            font-size: 14px;
+            color: var(--moss);
+            text-decoration: line-through;
+        }
+
+        .discount-badge {
+            background: var(--ink);
+            color: var(--paper);
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .current-price {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--ink);
+        }
+
+        .item-count {
+            font-size: 12px;
+            color: var(--moss);
+            margin: 8px 0;
+        }
+
+        .underlink {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--ink);
+            font-weight: 600;
+            font-size: 14px;
+            text-decoration: underline;
+            padding: 0;
+            transition: opacity 0.2s;
+        }
+
+        .underlink:hover {
+            opacity: 0.6;
+        }
+
+        .underlink b {
+            margin-left: 4px;
+        }
+
+        .feature-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            padding: 80px 40px;
+            background: var(--paper);
+            border-top: 1px solid var(--line);
+        }
+
+        .feature-image {
+            aspect-ratio: 1;
+            background: linear-gradient(135deg, #d4ccc0 0%, #c0b8ac 100%);
+            border-radius: 8px;
+        }
+
+        .feature-copy {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .feature-copy h2 {
+            margin-top: 16px;
+        }
+
+        .promise-section {
+            padding: 80px 40px;
+            background: var(--sand);
+            text-align: center;
+            border-top: 1px solid var(--line);
+        }
+
+        .promise-section h2 {
+            margin: 20px 0 60px;
+        }
+
+        .promise-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+        }
+
+        .promise-item {
+            text-align: left;
+        }
+
+        .promise-item b {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--moss);
+        }
+
+        .promise-item h3 {
+            font-size: 18px;
+            margin: 12px 0 8px;
+        }
+
+        .promise-item p {
+            font-size: 14px;
+            color: var(--moss);
+        }
+
+        footer {
+            background: var(--ink);
+            color: var(--paper);
+            padding: 80px 40px;
+            border-top: 1px solid var(--line);
+        }
+
+        .footer-top {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .footer-top h2 {
+            color: var(--paper);
+            margin: 20px 0 40px;
+        }
+
+        .button {
+            background: var(--paper);
+            color: var(--ink);
+            padding: 14px 28px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            text-decoration: none;
+            display: inline-block;
+            transition: opacity 0.2s;
+        }
+
+        .button:hover {
+            opacity: 0.8;
+        }
+
+        @media (max-width: 1024px) {
+            .product-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .paths-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .promise-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .site-header {
+                padding: 15px 20px;
+            }
+
+            .hero,
+            .feature-section {
+                grid-template-columns: 1fr;
+                padding: 40px 20px;
+                gap: 30px;
+            }
+
+            .hero-caption {
+                font-size: 32px;
+            }
+
+            h1, h2 {
+                font-size: 32px;
+            }
+
+            .product-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .paths-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .promise-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .shop-paths,
+            .intro,
+            .best-sellers,
+            .feature-section,
+            .promise-section {
+                padding: 40px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="announcement">Complimentary shipping on all orders across India</div>
+
+    <header class="site-header">
+        <button class="brand-logo" aria-label="Babiko home">
+            <strong>Babiko</strong>
+        </button>
+        <nav class="desktop-nav">
+            <button>Shop</button>
+            <button>Our story</button>
+            <button>Safety & care</button>
+        </nav>
+        <a class="header-help" href="#">Talk to us <span>↗</span></a>
+    </header>
+
+    <main>
+        <!-- HERO SECTION -->
+        <section class="hero">
+            <div class="hero-image">
+                <div class="hero-caption">Made for the earliest<br/>days of wonder.</div>
+            </div>
+            <div class="hero-copy">
+                <p class="eyebrow">Thoughtfully designed for little hands</p>
+                <h1>Every child deserves to discover the world.</h1>
+                <p style="font-size: 16px; line-height: 1.8; color: var(--ink);">At Babiko, we believe in creating toys that inspire curiosity, support development, and feel as good in your home as they do in little hands.</p>
+            </div>
+        </section>
+
+        <!-- INTRO SECTION -->
+        <section class="intro">
+            <p class="eyebrow">The Babiko philosophy</p>
+            <h2>Designed for the<br/>way children <em>really</em> play.</h2>
+            <p style="font-size: 16px;">We make toys that feel as good in your home as they feel in little hands. Each piece is selected for its ability to spark joy, support development, and grow with your child.</p>
+        </section>
+
+        <!-- SHOP PATHS -->
+        <section class="shop-paths">
+            <div class="section-title">
+                <div>
+                    <p class="eyebrow">Find what feels right</p>
+                    <h2>Made for every<br/><em>beginning.</em></h2>
+                </div>
+            </div>
+            <div class="paths-grid">
+                <div class="path-card">
+                    <div class="path-image"></div>
+                    <p class="eyebrow">A journey, considered</p>
+                    <h3>Growth<br/><em>Kits</em></h3>
+                    <p>Stage-led play for their changing world.</p>
+                </div>
+                <div class="path-card">
+                    <div class="path-image"></div>
+                    <p class="eyebrow">For the little milestones</p>
+                    <h3>Gift<br/><em>Sets</em></h3>
+                    <p>Beautiful beginnings, wrapped with care.</p>
+                </div>
+                <div class="path-card">
+                    <div class="path-image"></div>
+                    <p class="eyebrow">Find their next favourite</p>
+                    <h3>Shop by<br/><em>Age</em></h3>
+                    <p>A thoughtful place to begin.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- BESTSELLERS -->
+        <section class="best-sellers">
+            <div class="section-title">
+                <div>
+                    <p class="eyebrow">Loved by little ones</p>
+                    <h2>Our<br/><em>Bestsellers.</em></h2>
+                </div>
+                <button class="text-link">View all →</button>
+            </div>
+            <div class="product-grid">
+                <article class="product-card">
+                    <button class="product-photo">
+                        <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #d4ccc0 0%, #c0b8ac 100%);"></div>
+                        <span>Popular</span>
+                    </button>
+                    <div class="product-meta">
+                        <p>Growth Kit · 0–3 months</p>
+                        <h3>First Steps in Learning Kit</h3>
+                    </div>
+                    <div class="product-price-block">
+                        <div class="price-text-group">
+                            <span class="original-price">₹2,099</span>
+                            <span class="discount-badge">19% off</span>
+                        </div>
+                    </div>
+                    <div class="current-price">₹1,699</div>
+                    <p class="item-count">5 thoughtfully chosen pieces</p>
+                    <button class="underlink">Explore <b>→</b></button>
+                </article>
+
+                <article class="product-card">
+                    <button class="product-photo">
+                        <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #d4ccc0 0%, #c0b8ac 100%);"></div>
+                    </button>
+                    <div class="product-meta">
+                        <p>Growth Kit · 3–6 months</p>
+                        <h3>Hands-On Learning Kit</h3>
+                    </div>
+                    <div class="product-price-block">
+                        <div class="price-text-group">
+                            <span class="original-price">₹2,499</span>
+                            <span class="discount-badge">20% off</span>
+                        </div>
+                    </div>
+                    <div class="current-price">₹1,999</div>
+                    <p class="item-count">6 thoughtfully chosen pieces</p>
+                    <button class="underlink">Explore <b>→</b></button>
+                </article>
+
+                <article class="product-card">
+                    <button class="product-photo">
+                        <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #d4ccc0 0%, #c0b8ac 100%);"></div>
+                    </button>
+                    <div class="product-meta">
+                        <p>Gift Set · 0–3 months</p>
+                        <h3>Newborn Rattle & Teether Set</h3>
+                    </div>
+                    <div class="product-price-block">
+                        <div class="price-text-group">
+                            <span class="original-price">₹699</span>
+                            <span class="discount-badge">29% off</span>
+                        </div>
+                    </div>
+                    <div class="current-price">₹499</div>
+                    <button class="underlink">Explore <b>→</b></button>
+                </article>
+
+                <article class="product-card">
+                    <button class="product-photo">
+                        <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #d4ccc0 0%, #c0b8ac 100%);"></div>
+                    </button>
+                    <div class="product-meta">
+                        <p>Individual Toy · 12+ months</p>
+                        <h3>The Balance Garden</h3>
+                    </div>
+                    <div class="product-price-block">
+                        <div class="price-text-group">
+                            <span class="original-price">₹2,190</span>
+                            <span class="discount-badge">18% off</span>
+                        </div>
+                    </div>
+                    <div class="current-price">₹1,790</div>
+                    <button class="underlink">Explore <b>→</b></button>
+                </article>
+            </div>
+        </section>
+
+        <!-- FEATURE SECTION -->
+        <section class="feature-section">
+            <div class="feature-image"></div>
+            <div class="feature-copy">
+                <p class="eyebrow">A world in one small piece</p>
+                <h2>Play without<br/>an instruction manual.</h2>
+                <p style="font-size: 16px; line-height: 1.8;">Open-ended toys spark imagination. Every Babiko piece is designed to grow with your child, inviting countless ways to play, explore, and discover.</p>
+            </div>
+        </section>
+
+        <!-- PROMISE SECTION -->
+        <section class="promise-section">
+            <p class="eyebrow">The Babiko promise</p>
+            <h2>Nothing less than<br/><em>beautifully safe.</em></h2>
+            <div class="promise-grid">
+                <div class="promise-item">
+                    <b>01</b>
+                    <h3>Gentle by nature</h3>
+                    <p>Non-toxic finishes and materials safe for curious mouths and little hands.</p>
+                </div>
+                <div class="promise-item">
+                    <b>02</b>
+                    <h3>Rigorously tested</h3>
+                    <p>Every toy meets or exceeds international safety standards.</p>
+                </div>
+                <div class="promise-item">
+                    <b>03</b>
+                    <h3>Built to last</h3>
+                    <p>Durable materials designed for years of play across siblings and generations.</p>
+                </div>
+                <div class="promise-item">
+                    <b>04</b>
+                    <h3>Thoughtfully sourced</h3>
+                    <p>Each piece is carefully selected for quality, ethics, and sustainability.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-top">
+            <p class="eyebrow">A little note from us</p>
+            <h2>Play more.<br/><em>Wonder longer.</em></h2>
+            <a class="button" href="#">Get in touch on WhatsApp →</a>
+        </div>
+    </footer>
+</body>
+</html>
