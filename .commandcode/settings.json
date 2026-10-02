@@ -1,0 +1,40 @@
+{
+  "permissions": {
+    "allow": [
+      "Shell(node audit.mjs 2 >& 1)",
+      "Shell(node -e let s='';process.stdin.on('data',d=>s+=d).on('end',()=>{const j=JSON.parse(s);const seen=new Set();console.log('OUT OF BOUNDS (right edge past '+j.vw+'):');for(const o of j.outOfBounds){if(o.el==='aside.drawer'||o.right<0)continue;const k=o.el+o.right;if(seen.has(k))continue;seen.add(k);console.log(' '+o.el.padEnd(30),'L='+o.left,'R='+o.right,'W='+o.w)}console.log('');console.log('ELEMENTS WITH INTERNAL OVERFLOW:');for(const o of j.overflowers)console.log(' '+o.el.padEnd(30),'client='+o.clientW,'scroll='+o.scrollW,'over='+o.over)}))",
+      "Shell(node verify.mjs 2 >& 1)",
+      "Shell(for:*)",
+      "Shell(do:*)",
+      "Shell(grep:*)",
+      "Shell(sed:*)",
+      "Shell(done:*)",
+      "Shell(npm:*)",
+      "Shell(rm:*)",
+      "Shell(ls:*)",
+      "Shell(curl -s -o /dev/null -w \"dev server: %{http_code}\\n\" http://localhost:5173/product/first-steps)",
+      "Shell(node -e \"const p=require('./package.json');console.log(JSON.stringify(p.scripts,null,2))\")",
+      "Shell(git:*)",
+      "Shell(node -e console.log(require.resolve('postcss')) 2 >& 1)",
+      "Shell(node -e \" const postcss=require('postcss'); const fs=require('fs'); const css=fs.readFileSync('src/product.css','utf8'); const root=postcss.parse(css); console.log('CSS parsed OK'); const want=['.product-story','.story-copy','.product-details-section','.detail-block','.detail-copy']; root.walkRules(r=>{ if(want.some(w=>r.selector.split(',').some(s=>s.trim()===w))) console.log((r.parent.type==='atrule'? '['+r.parent.params+'] ':'')+r.selector+' => '+r.nodes.map(n=>n.prop+':'+n.value).join('; ')); }); \")",
+      "Shell(node -e try{console.log('sanity ->',require.resolve('sanity'))}catch(e){console.log('sanity NOT installed')})",
+      "Shell(agent-browser:*)",
+      "Shell(echo:*)",
+      "Shell(curl -s -o /dev/null -w @react-refresh HTTP %{http_code}\\n http://localhost:3334/@react-refresh)",
+      "Shell(curl -s http://localhost:3334/@react-refresh)",
+      "Shell(curl -s -o /dev/null -w @react-refresh HTTP %{http_code}\\n http://localhost:3333/@react-refresh)",
+      "Shell(probe() { code=$(curl -s -o /dev/null -w \"%{http_code}\" \"http://localhost:$1/@react-refresh\"); echo \"port $1 -> HTTP $code\"; } probe 3334 probe 3333 echo echo \"=== error payload from stale :3333 ===\" curl -s \"http://localhost:3333/@react-refresh\" | grep -o 'ENOENT[^\"]*' | head -2)",
+      "Shell(echo \"fresh :3334 root -> HTTP $(curl -s -o /dev/null -w '%{http_code}' http://localhost:3334/)\" echo \"stale :3333 root -> HTTP $(curl -s -o /dev/null -w '%{http_code}' http://localhost:3333/)\" echo echo \"=== any other failing modules on fresh server? ===\" for m in \"/@vite/client\" \"/node_modules/.vite/deps/react.js\"; do echo \"$m -> HTTP $(curl -s -o /dev/null -w '%{http_code}' \"http://localhost:3334$m\")\" done)",
+      "Shell(echo \"3334 free? -> $(lsof -nP -iTCP:3334 -sTCP:LISTEN 2>/dev/null | wc -l | tr -d ' ') listeners\"; echo \"3333 (yours, still up) -> $(lsof -nP -iTCP:3333 -sTCP:LISTEN 2>/dev/null | wc -l | tr -d ' ') listener\")",
+      "Shell(ps -o pid,command -p 6295 2>/dev/null; kill 6295 6311 2>/dev/null; sleep 1; echo \"--- after kill ---\"; lsof -nP -iTCP:3333 -sTCP:LISTEN 2>/dev/null | wc -l | tr -d ' '; echo \"listeners remaining\"; ps -p 6311 >/dev/null 2>&1 && echo \"6311 still alive\" || echo \"6311 gone\")",
+      "Shell(env -u NODE_ENV npm run dev)",
+      "Shell(tr '}' '}\\n' < src/styles.css | grep -nE '\\.(intro|promise|product-feature|quote|section-title|eyebrow)\\b' | head -60)",
+      "Shell(npx vite build 2 >& 1)",
+      "Shell(for f in styles product section-redesign collections testimonials; do echo \"===== $f.css =====\"; tr '}' '}\\n' < \"src/$f.css\" | grep -nE 'clay|--ink|#918e84|#cac9bd|#1e4d3b|#e7f0ea|discount-badge' ; done)",
+      "Shell(npx tsc --noEmit 2 >& 1)"
+    ],
+    "deny": [],
+    "defaultMode": "default"
+  },
+  "tasteLearning": false
+}

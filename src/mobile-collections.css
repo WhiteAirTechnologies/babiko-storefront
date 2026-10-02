@@ -1,0 +1,5 @@
+@media(max-width:800px){
+  .path-grid{display:flex;gap:12px;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;padding:0 20px 8px;margin:0;scrollbar-width:none}
+  .path-grid::-webkit-scrollbar{display:none}
+  .path-card{display:block;flex:0 0 min(78vw,340px);height:440px;margin:0;scroll-snap-align:start}
+}
