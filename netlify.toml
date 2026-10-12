@@ -2,6 +2,11 @@
   command = "npm run build"
   publish = "dist"
 
+[build.environment]
+  VITE_SANITY_PROJECT_ID = "0wd5v2k0"
+  VITE_SANITY_DATASET = "production"
+  VITE_WHATSAPP_NUMBER = "918015023399"
+
 [[redirects]]
   from = "/*"
   to = "/index.html"
