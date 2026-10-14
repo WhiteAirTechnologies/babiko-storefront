@@ -72,6 +72,7 @@ export async function loadProducts(): Promise<Product[]> {
       amazonUrl: r.amazonUrl || shared.amazonUrl
     }))
   } catch (e) {
+    console.warn('[Babiko] Sanity products fetch failed — falling back to local catalogue.', e)
     return products
   }
 }
