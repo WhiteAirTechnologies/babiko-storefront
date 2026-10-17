@@ -3,6 +3,8 @@ import { Navigate, Route, Routes, useLocation, useNavigate, useParams } from 're
 import { ageBands, products as staticProducts, loadProducts, type AgeBand, type Collection, type Product, type Review, whatsappLink } from './data'
 import { loadSiteImages, useSiteImages } from './site-images'
 import logo from './Logo-New theme.png'
+import aboutHeader from './about-header.jpg'
+import permanenceBox from './permanence-box.png'
 import './product.css'
 import './collections.css'
 import './bestsellers.css'
@@ -10,6 +12,7 @@ import './logo.css'
 import './mobile-collections.css'
 import './section-redesign.css'
 import './testimonials.css'
+import './story.css'
 
 type View = 'home' | 'shop' | 'about' | 'care' | 'all-products' | 'all products' | 'GrowthKit' | 'GiftSet' | 'age'
 type CollectionView = Collection | 'age'
@@ -100,7 +103,7 @@ function App() {
   }
 
   return <>
-    <div className="announcement">Complimentary shipping on all orders across India</div>
+    <div className="announcement">Free shipping on all orders across India</div>
     <header className="site-header">
       <button className="menu-button" aria-label="Open navigation" onClick={() => setMenuOpen(true)}><i></i><i></i></button>
       <button className="brand-logo" onClick={() => go('home')} aria-label="Babiko home"><img src={logo} alt="Babiko — Every Child Deserves" /></button>
@@ -130,7 +133,7 @@ function App() {
         <Route path="/GiftSet" element={<CollectionPage selection="gift-set" openCollection={openCollection} go={go} products={productsState} />} />
         <Route path="/age" element={<CollectionPage selection="age" openCollection={openCollection} go={go} products={productsState} />} />
         <Route path="/product/:id" element={<ProductPage go={go} products={productsState} ready={productsReady} />} />
-        <Route path="/about" element={<About />} />
+        <Route path="/about" element={<About go={go} />} />
         <Route path="/care" element={<Care />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
@@ -203,8 +206,9 @@ function ShopPaths({ openCollection, showTitle = true }: { openCollection: (view
 }
 
 function BestSellers({ go, products }: { go: (view: View, id?: string) => void; products: Product[] }) {
-  const bestSellers = products.filter(product => product.bestSeller)
-  return <section className="best-sellers"><div className="section-title"><div><p className="eyebrow">Loved by little ones</p><h2>Our<br/><em>Bestsellers.</em></h2></div><button className="text-link desktop-only" onClick={() => go('all-products')}>Explore all toys <b>→</b></button></div><div className="best-seller-rail">{bestSellers.map(product => <ProductCard key={product.id} product={product} go={go} />)}</div></section>
+  const flagged = products.filter(product => product.bestSeller)
+  const bestSellers = flagged.length >= 4 ? flagged : [...flagged, ...products.filter(product => !product.bestSeller)].slice(0, 4)
+  return <section className="best-sellers"><div className="section-title"><div><p className="eyebrow">Loved by little ones</p><h2>Our<br/><em>Bestsellers.</em></h2></div><button className="text-link" onClick={() => go('all-products')}>Explore all toys <b>→</b></button></div><div className="best-seller-rail">{bestSellers.map(product => <ProductCard key={product.id} product={product} go={go} />)}</div></section>
 }
 
 function Testimonials() {
@@ -317,7 +321,7 @@ function ProductPage({ go, products, ready }: { go: (view: View, id?: string) =>
     ['What is included', product.includes.map(item => `• ${item}`).join('\n')],
     ['Materials & safety', `Made with ${product.material.toLowerCase()}. Every Babiko toy is thoughtfully selected for little hands and curious mouths. Always supervise play and inspect before use.`],
     ['Size & care', `${product.dimensions}\n\n${product.care}`],
-    ['Shipping & returns', 'Complimentary delivery across India. Orders are usually dispatched within 1–2 working days. For help with an order or return, simply speak with our care team on WhatsApp.']
+    ['Shipping & returns', 'Free delivery across India. Orders are usually dispatched within 1–2 working days. For help with an order or return, simply speak with our care team on WhatsApp.']
   ]
   const defaultReviews: Review[] = [
     { quote: 'The growth kit arrived beautifully packaged and genuinely thoughtful. My daughter reaches for the wooden shapes every single day.', name: 'Ananya Sharma', detail: 'Mum to Aria · Bengaluru' },
@@ -329,7 +333,7 @@ function ProductPage({ go, products, ready }: { go: (view: View, id?: string) =>
   const reviewAverage = hasReviews ? reviews.reduce((sum, review) => sum + (review.rating || 5), 0) / reviews.length : 4.9
   const reviewCount = hasReviews ? reviews.length : 128
 
-  return <section className="product-page page"><button className="back-link" onClick={() => go('all-products')}>← Back to shop</button><div className="product-layout"><div className="product-gallery"><div className="main-product-image"><img key={activeImage} className={`gallery-slide ${slideDir}`} src={product.gallery[activeImage]} alt={`${product.name}, view ${activeImage + 1}`} fetchPriority="high" decoding="async" />{totalImages > 1 && <><button className="gallery-arrow prev" onClick={() => goToImage(activeImage - 1, 'prev')} aria-label="Previous image">←</button><button className="gallery-arrow next" onClick={() => goToImage(activeImage + 1, 'next')} aria-label="Next image">→</button></>}<span>{String(activeImage + 1).padStart(2, '0')} / {String(totalImages).padStart(2, '0')}</span></div><div className="gallery-thumbnails">{product.gallery.map((image, index) => <button className={index === activeImage ? 'selected' : ''} onClick={() => goToImage(index, index >= activeImage ? 'next' : 'prev')} key={image} aria-label={`View image ${index + 1}`}><img src={image} alt="" loading="lazy" decoding="async" /></button>)}</div></div><div className="product-detail"><p className="eyebrow">{product.category} · {product.age}</p><h1>{product.name}</h1><div className="price"><ProductPrice product={product} /></div><p className="lead">{product.short}</p>{product.occasion && <p className="occasion">{product.occasion}</p>}<div className="purchase-note"><span>●</span> In stock · ready to be loved</div><div className="product-actions"><a className="button dark" href={whatsappLink(product)} target="_blank" rel="noreferrer">Order on WhatsApp <span>↗</span></a><a className="button outline" href={product.amazonUrl} target="_blank" rel="noreferrer">Buy on Amazon <span>↗</span></a></div><p className="order-assurance">Complimentary shipping in India · Secure Amazon checkout available</p><div className="details product-at-a-glance"><div><span>Made with</span><p>{product.material}</p></div><div><span>Supports</span><p>{product.benefits.join(' · ')}</p></div><div><span>Recommended age</span><p>{product.age}</p></div>{product.itemCount && <div><span>Inside the box</span><p>{product.itemCount} thoughtfully chosen pieces</p></div>}</div></div></div>
+  return <section className="product-page page"><button className="back-link" onClick={() => go('all-products')}>← Back to shop</button><div className="product-layout"><div className="product-gallery"><div className="main-product-image"><img key={activeImage} className={`gallery-slide ${slideDir}`} src={product.gallery[activeImage]} alt={`${product.name}, view ${activeImage + 1}`} fetchPriority="high" decoding="async" />{totalImages > 1 && <><button className="gallery-arrow prev" onClick={() => goToImage(activeImage - 1, 'prev')} aria-label="Previous image">←</button><button className="gallery-arrow next" onClick={() => goToImage(activeImage + 1, 'next')} aria-label="Next image">→</button></>}<span>{String(activeImage + 1).padStart(2, '0')} / {String(totalImages).padStart(2, '0')}</span></div><div className="gallery-thumbnails">{product.gallery.map((image, index) => <button className={index === activeImage ? 'selected' : ''} onClick={() => goToImage(index, index >= activeImage ? 'next' : 'prev')} key={image} aria-label={`View image ${index + 1}`}><img src={image} alt="" loading="lazy" decoding="async" /></button>)}</div></div><div className="product-detail"><p className="eyebrow">{product.category} · {product.age}</p><h1>{product.name}</h1><div className="price"><ProductPrice product={product} /></div><p className="lead">{product.short}</p>{product.occasion && <p className="occasion">{product.occasion}</p>}<div className="purchase-note"><span>●</span> In stock · ready to be loved</div><div className="product-actions"><a className="button dark" href={whatsappLink(product)} target="_blank" rel="noreferrer">Order on WhatsApp <span>↗</span></a><a className="button outline" href={product.amazonUrl} target="_blank" rel="noreferrer">Buy on Amazon <span>↗</span></a></div><p className="order-assurance">Free shipping in India · Secure Amazon checkout available</p><div className="details product-at-a-glance"><div><span>Made with</span><p>{product.material}</p></div><div><span>Supports</span><p>{product.benefits.join(' · ')}</p></div><div><span>Recommended age</span><p>{product.age}</p></div>{product.itemCount && <div><span>Inside the box</span><p>{product.itemCount} thoughtfully chosen pieces</p></div>}</div></div></div>
 
     {/* A+ visuals section hidden for now — restore by uncommenting
     {product.aplus && product.aplus.length > 0 && <section className="aplus-content"><div className="section-title"><div><p className="eyebrow">A+ visuals</p><h2>More images & details</h2></div></div><div className="aplus-grid">{product.aplus.map((img, i) => <div className="aplus-module" key={i}><img src={img} alt={`${product.name} — visual ${i + 1}`} /></div>)}</div></section>}
@@ -343,7 +347,79 @@ function ProductPage({ go, products, ready }: { go: (view: View, id?: string) =>
   </section>
 }
 
-function About() { const imgs = useSiteImages(); return <section className="about page"><p className="eyebrow">Our story</p><h1>For all the<br/><em>firsts.</em></h1><div className="about-visual" style={{ '--site-about': `url('${imgs.about}')` } as CSSProperties}></div><div className="about-copy"><p>Babiko began with a belief: that the objects children meet first should be as thoughtful as the love that surrounds them.</p><p>We create playthings that invite curiosity over perfection, imagination over instruction, and a little more wonder into ordinary days.</p></div></section> }
+function About({ go }: { go: (view: View, id?: string) => void }) {
+  const imgs = useSiteImages()
+
+  useEffect(() => {
+    const nodes = Array.from(document.querySelectorAll<HTMLElement>('.story [data-reveal]'))
+    if (!nodes.length) return
+    if (typeof IntersectionObserver === 'undefined' || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      nodes.forEach(node => node.classList.add('is-visible'))
+      return
+    }
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) { entry.target.classList.add('is-visible'); observer.unobserve(entry.target) }
+      })
+    }, { threshold: 0.16, rootMargin: '0px 0px -10% 0px' })
+    nodes.forEach(node => observer.observe(node))
+    return () => observer.disconnect()
+  }, [])
+
+  const beliefs = [
+    { n: '01', title: 'Curiosity before instruction', copy: 'The best play has no wrong answers. We choose open-ended pieces that let a child lead the way.' },
+    { n: '02', title: 'Tactile by nature', copy: 'Wood, cotton and water-based colour. Materials a small hand can trust and a parent can feel good about.' },
+    { n: '03', title: 'Made to be kept', copy: 'Nothing disposable. Toys built to be handed down, through siblings and seasons and second childhoods.' }
+  ]
+
+  return <section className="story">
+    <div className="story-hero">
+      <div className="story-hero-copy" data-reveal><p className="eyebrow">Our story</p><h1>For all the<br/><em>firsts.</em></h1></div>
+      <div className="story-hero-media" data-reveal><img src={aboutHeader} width={1200} height={800} alt="A baby, a toddler and two children at play with Babiko wooden toys — first grasp, first stack, first shapes" fetchPriority="high" decoding="async" /></div>
+    </div>
+
+    <div className="story-intro" data-reveal>
+      <p className="lead">Babiko began with a simple wish: that the very first things a child holds should feel as considered as the love that surrounds them.</p>
+      <p>Not louder, not brighter. Just quieter objects, made well enough to be kept.</p>
+    </div>
+
+    <section className="story-chapter">
+      <div className="story-media" data-reveal><img src={permanenceBox} alt="A red wooden object permanence box with a natural wood catch tray and two balls" loading="lazy" decoding="async" /></div>
+      <div className="story-copy" data-reveal>
+        <p className="eyebrow">Where it began</p>
+        <h2>It started with<br/><em>a disappearing ball.</em></h2>
+        <p>Watch a baby drop a ball into the little wooden box. For a moment it vanishes. Then it rolls back out through the arch, and something in their face changes — the quiet beginning of knowing that what goes away can come back.</p>
+        <p>That moment is where Babiko began. Our object permanence box is built around it: one simple action, a ball that always returns, and a lesson a child gives themselves, again and again, without ever being told.</p>
+      </div>
+    </section>
+
+    <section className="story-beliefs">
+      <div className="story-belief-head" data-reveal><p className="eyebrow">What we hold true</p><h2>Three quiet<br/><em>beliefs.</em></h2></div>
+      <div className="story-belief-grid">{beliefs.map(item => <div className="story-belief" key={item.n} data-reveal><b>{item.n}</b><h3>{item.title}</h3><p>{item.copy}</p></div>)}</div>
+    </section>
+
+    <section className="story-quote" data-reveal>
+      <p>A child remembers how something felt long before they remember what it was called.</p>
+      <span>The Babiko belief</span>
+    </section>
+
+    <section className="story-chapter reverse">
+      <div className="story-media" data-reveal><img src={imgs.detail} alt="Close detail of a smooth, hand-finished wooden toy" loading="lazy" decoding="async" /></div>
+      <div className="story-copy" data-reveal>
+        <p className="eyebrow">How it's made</p>
+        <h2>Considered<br/><em>to the edge.</em></h2>
+        <p>Every piece is chosen for how it feels in the hand. Smooth, hand-finished edges. Non-toxic, water-based colour. Solid wood that carries its own grain and weight.</p>
+        <p>Each Babiko toy is BIS certified and made in India in small batches we can stand behind, because the first things a child reaches for should never be a compromise.</p>
+      </div>
+    </section>
+
+    <section className="story-close">
+      <p className="eyebrow">Come say hello</p>
+      <h2>See what<br/><em>we've made.</em></h2>
+      <button className="text-link" onClick={() => go('shop')}>Explore the collection <b>→</b></button>
+    </section>
+  </section>
+}
 
 function Care() {
   const [open, setOpen] = useState(0)
@@ -353,7 +429,7 @@ function Care() {
 }
 
 function Footer({ go }: { go: (view: View, id?: string) => void }) {
-  return <footer><div className="footer-top"><p className="eyebrow">A little note from us</p><h2>Play more.<br/><em>Wonder longer.</em></h2><a className="button light-button" href={whatsappLink()} target="_blank" rel="noreferrer">Talk to Babiko <span>↗</span></a></div><div className="footer-bottom"><button className="brand-logo footer-logo" onClick={() => go('home')}><img src={logo} alt="Babiko — Every Child Deserves" /></button><div className="footer-links"><button onClick={() => go('shop')}>Shop</button><button onClick={() => go('about')}>Our story</button><button onClick={() => go('care')}>Safety & care</button><a href={whatsappLink()} target="_blank" rel="noreferrer">Contact</a></div><p>© 2026 Babiko. Made in India.</p></div></footer>
+  return <footer><div className="footer-top"><p className="eyebrow">A little note from us</p><h2>Play more.<br/><em>Wonder longer.</em></h2><div className="footer-cta-row"><a className="button light-button" href={whatsappLink()} target="_blank" rel="noreferrer">Talk to Babiko <span>↗</span></a><a className="button light-button social-button" href="https://www.instagram.com/" target="_blank" rel="noreferrer"><span className="button-content"><svg className="social-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5" /><circle cx="12" cy="12" r="4" /><circle cx="17.3" cy="6.7" r="1.2" fill="currentColor" stroke="none" /></svg>Instagram</span><span>↗</span></a></div></div><div className="footer-bottom"><button className="brand-logo footer-logo" onClick={() => go('home')}><img src={logo} alt="Babiko — Every Child Deserves" /></button><div className="footer-links"><button onClick={() => go('shop')}>Shop</button><button onClick={() => go('about')}>Our story</button><button onClick={() => go('care')}>Safety & care</button><a href={whatsappLink()} target="_blank" rel="noreferrer">Contact</a><a href="https://www.instagram.com/" target="_blank" rel="noreferrer">Instagram</a></div><p>© 2026 Babiko. Made in India.</p></div></footer>
 }
 
 export default App
