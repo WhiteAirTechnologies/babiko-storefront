@@ -9,7 +9,6 @@ import './product.css'
 import './collections.css'
 import './bestsellers.css'
 import './logo.css'
-import './mobile-collections.css'
 import './section-redesign.css'
 import './testimonials.css'
 import './story.css'
@@ -429,7 +428,7 @@ function Care() {
 }
 
 function Footer({ go }: { go: (view: View, id?: string) => void }) {
-  return <footer><div className="footer-top"><p className="eyebrow">A little note from us</p><h2>Play more.<br/><em>Wonder longer.</em></h2><div className="footer-cta-row"><a className="button light-button" href={whatsappLink()} target="_blank" rel="noreferrer">Talk to Babiko <span>↗</span></a><a className="button light-button social-button" href="https://www.instagram.com/" target="_blank" rel="noreferrer"><span className="button-content"><svg className="social-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5" /><circle cx="12" cy="12" r="4" /><circle cx="17.3" cy="6.7" r="1.2" fill="currentColor" stroke="none" /></svg>Instagram</span><span>↗</span></a></div></div><div className="footer-bottom"><button className="brand-logo footer-logo" onClick={() => go('home')}><img src={logo} alt="Babiko — Every Child Deserves" /></button><div className="footer-links"><button onClick={() => go('shop')}>Shop</button><button onClick={() => go('about')}>Our story</button><button onClick={() => go('care')}>Safety & care</button><a href={whatsappLink()} target="_blank" rel="noreferrer">Contact</a><a href="https://www.instagram.com/" target="_blank" rel="noreferrer">Instagram</a></div><p>© 2026 Babiko. Made in India.</p></div></footer>
+  return <footer><div className="footer-top"><p className="eyebrow">A little note from us</p><h2>Play more.<br/><em>Wonder longer.</em></h2><div className="footer-cta-row"><a className="button light-button" href={whatsappLink()} target="_blank" rel="noreferrer">Talk to Babiko <span>↗</span></a><a className="button light-button social-button" href="https://www.instagram.com/babiko_toys/" target="_blank" rel="noreferrer"><span className="button-content"><svg className="social-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5" /><circle cx="12" cy="12" r="4" /><circle cx="17.3" cy="6.7" r="1.2" fill="currentColor" stroke="none" /></svg>Instagram</span><span>↗</span></a></div></div><div className="footer-bottom"><button className="brand-logo footer-logo" onClick={() => go('home')}><img src={logo} alt="Babiko — Every Child Deserves" /></button><div className="footer-links"><button onClick={() => go('shop')}>Shop</button><button onClick={() => go('about')}>Our story</button><button onClick={() => go('care')}>Safety & care</button><a href={whatsappLink()} target="_blank" rel="noreferrer">Contact</a><a href="https://www.instagram.com/babiko_toys/" target="_blank" rel="noreferrer">Instagram</a></div><p>© 2026 Babiko. Made in India.</p></div></footer>
 }
 
 export default App
