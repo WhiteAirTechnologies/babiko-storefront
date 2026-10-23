@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Babiko">
+  <g stroke="#0B4F45" stroke-width="3" fill="#F5E38A">
+    <circle cx="9" cy="33" r="5.5" />
+    <circle cx="55" cy="33" r="5.5" />
+    <circle cx="32" cy="33" r="23.5" />
+  </g>
+  <g fill="none" stroke="#0B4F45" stroke-width="2.6" stroke-linecap="round">
+    <path d="M21 29.5 q4 5 8 0" />
+    <path d="M35 29.5 q4 5 8 0" />
+    <path d="M25 39 q7 6 14 0" />
+    <path d="M36 16 q4.5 -3.5 7.5 -0.5" />
+    <path d="M39.5 11.5 q4.5 -3 7.5 0" />
+    <path d="M44 8.5 q4 -2 6.5 1.5" />
+  </g>
+</svg>
