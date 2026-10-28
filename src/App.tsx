@@ -246,15 +246,14 @@ function ProductPrice({ product }: { product: Product }) {
 
   const discountPercent = hasDiscount ? getDiscountPercent(product.price, product.originalPrice || '') : null
 
-  return <div className="product-price-block">{hasDiscount && <div className="price-text-group"><span className="original-price">{product.originalPrice}</span>{discountPercent && <span className="discount-badge">{discountPercent}</span>}</div>}<strong className="product-price">{product.price}</strong></div>
+  return <div className="product-price-block"><strong className="product-price">{product.price}</strong>{hasDiscount && <div className="price-text-group"><span className="original-price">{product.originalPrice}</span>{discountPercent && <span className="discount-badge">{discountPercent}</span>}</div>}</div>
 }
 
 function ProductCard({ product, go }: { product: Product; go: (view: View, id?: string) => void }) {
   return <article className="product-card">
     <button className="product-photo" onClick={() => go('shop', product.id)}><img src={product.image} alt={product.name} loading="lazy" decoding="async" />{product.tag && <span>{product.tag}</span>}</button>
-    <div className="product-meta"><div><p>{product.category} · {product.age}</p><h3>{product.name}</h3></div><ProductPrice product={product} /></div>
-    {product.itemCount && <p className="item-count">{product.itemCount} thoughtfully chosen pieces</p>}
-    <button className="underlink" onClick={() => go('shop', product.id)}>Explore <b>→</b></button>
+    <div className="product-meta"><h3><button onClick={() => go('shop', product.id)}>{product.name}</button></h3><p>{product.category} · {product.age}</p><ProductPrice product={product} /></div>
+    <a className="card-buy" href={product.amazonUrl} target="_blank" rel="noreferrer">Buy Now</a>
   </article>
 }
 
